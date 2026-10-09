@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Will you be mine?</title>
+<style>
+    * {
+    box-sizing: border-box;
+    font-family: "Comic Sans MS", cursive;
+}
+:root {
+    --bg1: #ffd9e2;
+    --bg2: #ffb3c6;
+    --ink: #5a1230;
+    --yes: #e0245e;
+    --no: #6b5b73;
+}
+.love-gif {
+    width: 25px;
+    max-width: 50%;
+    border-radius: 15px;
+    display: block;
+    margin: 0 auto 20px;
+}
+* {
+    box-sizing: border-box;
+}
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+body {
+    background:
+        linear-gradient(
+            160deg,
+            var(--bg1),
+            var(--bg2)
+        );
+    color: var(--ink);
+    font-family:
+        "Trebuchet MS",
+        "Segoe UI",
+        sans-serif;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.hearts {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+.heart {
+    position: absolute;
+    bottom: -40px;
+    animation:
+       float linear forwards;
+    opacity: .8;
+}
+@keyframes float {
+    to {
+        transform:
+            translateY(-115vh)
+            rotate(25deg);
+
+        opacity: 0;
+    }
+}
+main {
+    position: relative;
+    z-index: 2;
+   padding: 20px;
+    width: 100%;
+}
+h1 {
+    font-size:
+        clamp(1.8rem, 6vw, 3rem);
+    margin:
+        0 0 28px;
+}
+.row {
+   display: flex;
+    gap: 18px;
+    justify-content: center;
+    align-items: center;
+    min-height: 110px;
+}
+button,
+.next {
+    font: inherit;
+    font-size: 1.1rem;
+    
+    font-weight: 700;
+    border: 0;
+    border-radius: 999px;
+    padding: 12px 32px;
+    color: #fff;
+    cursor: pointer;
+    animation:
+       bob 1s ease-in-out infinite;
+   transition:
+        transform .2s,
+        box-shadow .2s,
+        font-size .3s,
+        padding .3s;
+}
+button:hover,
+.next:hover {
+    box-shadow:
+        0 6px 16px
+        rgba(0,0,0,.25);
+}
+button:focus-visible,
+.next:focus-visible {
+    outline:
+        3px solid var(--ink);
+    outline-offset:
+        3px;
+}
+#yes {
+    background:
+        var(--yes);
+}
+#no {
+    background:
+        var(--no);
+}
+#no.moved {
+    position: fixed;
+    z-index: 3;
+}
+@keyframes bob {
+    50% {
+        transform:
+            translateY(-2px);
+    }
+    0%,
+    100% {
+        transform:
+            translateY(2px);
+    }
+}
+#msg {
+    margin-top: 22px;
+    font-size: 1.3rem;
+    min-height: 2em;
+    font-weight: 700;
+}
+#love {
+   display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+   align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+#love h1 {
+    font-size:
+        clamp(2.4rem, 9vw, 4.5rem);
+
+    margin-bottom: 20px;
+}
+.love-box {
+    width: min(90vw, 420px);
+    justify-content: center;
+    align-items: center;
+    padding: 40px 30px;
+    background:
+        rgba(255,255,255,.75);
+
+    border-radius: 25px;
+    box-shadow:
+        0 15px 45px
+        rgba(90,18,48,.25);
+    backdrop-filter:
+        blur(10px);
+    animation:
+        appear .7s ease;
+}
+.love-box p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin:
+        15px 0 20px;
+}
+.next {
+    display: inline-block;
+    background:
+        var(--yes);
+    text-decoration:
+       none;
+    margin-top: 10px;
+}
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform:
+            scale(.6);
+    }
+    to {
+        opacity: 1;
+        transform:
+            scale(1);
+    }
+}
+@media
+(prefers-reduced-motion: reduce) {
+    button,
+    .next,
+    .heart {
+        animation: none;
+    }
+}
+.love-video {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    max-height: 400px;
+    margin: 0 auto 20px;
+    border-radius: 18px;
+    object-fit: cover;
+    pointer-events: none;
+}
+</style>
+</head>
+<body>
+<div
+    class="hearts"
+    id="hearts"
+    aria-hidden="true">
+</div>
+<main>
+<section id="ask">
+    <h1>
+        Will you be mine? ♡
+    </h1>
+    <div
+        class="row"
+        id="row">
+        <button id="yes">
+            Yes ♡
+        </button>
+        <button id="no">
+            No
+        </button>
+    </div>
+   <div
+        id="msg"
+        role="status">
+    </div>
+</section>
+<section id="love">
+    <div class="love-box">
+        <h1>
+            I love you       
+        </h1>
+        <video
+            class="love-video"
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="auto">
+            <source
+                src="love_video.mp4"
+                type="video/mp4">
+        </video>
+        <p class="love-message">
+            Naku theluseee niku nen antee istam aniii😁❤️
+        </p>
+        <a
+            class="next"
+            href="second_page.html">
+            Next →
+        </a>
+    </div>
+</section>
+</main>
+<script>
+const yes =
+    document.getElementById('yes');
+const no =
+    document.getElementById('no');
+const msg =
+    document.getElementById('msg');
+const ask =
+    document.getElementById('ask');
+const love =
+    document.getElementById('love');
+const texts = [
+    "Nannu pelli chesukovaaaa....😢",
+    "Nijamgaa naa bgrmmmm🥺",
+    "Challe eshalu niku inko option ledhu gaaa😂❤️"
+
+];
+let tries = 0;
+let scale = 1;
+no.addEventListener('click', () => {
+    msg.textContent =
+        texts[tries];
+    tries++;
+    scale += .45;
+    yes.style.fontSize =
+        (1.1 * scale) + 'rem';
+    yes.style.padding =
+        (12 * scale) + 'px ' +
+        (32 * scale) + 'px';
+    if (tries >= 3) {
+        no.style.display =
+            'none';
+        return;
+    }
+    no.classList.add('moved');
+    const pad = 30;
+    const w =
+        no.offsetWidth;
+    const h =
+        no.offsetHeight;
+    const maxX =
+        window.innerWidth -
+        w -
+        pad;
+    const maxY =
+        window.innerHeight -
+        h -
+        pad;
+    const randomX =
+        pad +
+        Math.random() *
+        Math.max(
+            0,
+            maxX - pad
+        );
+    const randomY =
+        pad +
+        Math.random() *
+        Math.max(
+            0,
+            maxY - pad
+       );
+    no.style.left =
+        randomX + 'px';
+    no.style.top =
+        randomY + 'px';
+});
+yes.addEventListener('click', () => {
+    ask.style.display = 'none';
+    no.style.display = 'none';
+   love.style.display = 'flex';
+    for (let i = 0; i < 25; i++) {
+        spawn();
+    }
+});
+function spawn() {
+    const h =
+        document.createElement('span');
+    h.className =
+       'heart';
+    h.textContent =
+        '♥';
+   h.style.left =
+        Math.random() * 100 + '%';
+    h.style.fontSize =
+        (16 +
+        Math.random() * 28) +
+        'px';
+    h.style.animationDuration =
+        (5 +
+        Math.random() * 6) +
+        's';
+    document
+        .getElementById('hearts')
+        .appendChild(h);
+    setTimeout(
+        () => h.remove(),
+        11500
+    );
+}
+for (
+    let i = 0;
+    i < 12;
+    i++
+) {
+    setTimeout(
+        spawn,
+        i * 250
+    );
+}
+setInterval(
+    spawn,
+    450
+);
+
+</script>
+</body>
+</html>

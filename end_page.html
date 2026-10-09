@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Message</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Comic Sans MS", cursive;
+
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ffdce7, #ffb6ca) fixed;
+    color: #641331;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 26px;
+    overflow-x: hidden;
+    overflow-y: auto;          /* scrolling enabled */
+}
+
+/* Floating hearts (fixed behind the text) */
+.hearts {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.heart {
+    position: absolute;
+    bottom: -60px;
+    color: #ff4d88;
+    opacity: 0;
+    animation: float linear infinite;
+}
+
+@keyframes float {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(0.5); opacity: 0; }
+    10%  { opacity: 0.85; }
+    25%  { transform: translate(-25px, -25vh) rotate(-15deg) scale(0.8); }
+    50%  { transform: translate(30px, -50vh) rotate(20deg) scale(1); }
+    75%  { transform: translate(-20px, -75vh) rotate(-10deg) scale(0.9); }
+    100% { transform: translate(25px, -115vh) rotate(25deg) scale(0.6); opacity: 0; }
+}
+
+/* Message: normal flow so the page can scroll */
+#typing {
+    position: relative;
+    z-index: 1;
+    width: min(92vw, 900px);
+    margin: 0 auto;
+    padding: 60px 20px 45vh;   /* extra bottom space so the last lines can scroll up */
+    line-height: 1.7;
+    text-align: center;
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.9);
+}
+
+#typing::after {
+    content: "|";
+    animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+@media (max-width: 600px) {
+    body { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<div class="hearts" id="hearts"></div>
+
+<div id="typing"></div>
+
+<script>
+// Create floating hearts
+const heartsBox = document.getElementById("hearts");
+for (let i = 0; i < 28; i++) {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.textContent = "♥";
+    h.style.left = (Math.random() * 96) + "%";
+    h.style.fontSize = (16 + Math.random() * 26) + "px";
+    h.style.animationDuration = (7 + Math.random() * 7) + "s";
+    h.style.animationDelay = (Math.random() * 10) + "s";
+    heartsBox.appendChild(h);
+}
+
+const sentences = [
+    "Oye Chittii...!",
+    "Naku nitho ila chala memories kavali...",
+    "Life long",
+    "Idhe roju feb 9th 2025 lo edustuu raasa niku letter","Kadhaaaa....","",
+    "Manchi job thechukundham",
+    "Intlo vallani oppidhamm",
+    "Aa tharwatha idharam pelli chesukundham",
+    "Enta late aina parledhu wait chesta ni kosam",
+    "Naku nv life long na pakkana undatamm kavali ",
+    "Nitho ne life kavali",
+    "Ni second life happy ga unche badhyatha naadhi",
+    "Whyyy fearrrr....When your hubby is hereeeee",
+    "Isari 'u r my fear' ani anamakeeeee",
+    "Okkate Chitti...",
+    "Edhaina kaaniii nenu nitho ne unta nikosame unta ni pakkane unta",
+    "edhaina idharam face chedham ",
+    "I promise ",
+    "I wont leave your hand in any situation ",
+    "I always love you my dearrrr",
+    "I love you Chitti...",
+    "I love you my dear wifyyyyyyyyyyyyyyyy🥰🥰🥰🥰"
+];
+
+let sentenceIndex = 0;
+let charIndex = 0;
+const typing = document.getElementById("typing");
+
+function followText() {
+    const nearBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - window.innerHeight * 0.7;
+    if (nearBottom) {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }
+}
+
+function typeSentence() {
+    if (charIndex < sentences[sentenceIndex].length) {
+        typing.insertAdjacentText("beforeend", sentences[sentenceIndex].charAt(charIndex));
+        charIndex++;
+        setTimeout(typeSentence, 80);
+    } else {
+        sentenceIndex++;
+        charIndex = 0;
+        if (sentenceIndex < sentences.length) {
+            setTimeout(() => {
+                typing.insertAdjacentHTML("beforeend", "<br>");
+                followText();
+                typeSentence();
+            }, 2000);
+        }
+    }
+}
+
+typeSentence();
+</script>
+</body>
+</html>

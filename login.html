@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="YOUR_ACTUAL_CODE">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enter Passcode ❤️</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Comic Sans MS", cursive;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ffdce7, #ffb6ca);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+.login-card {
+    width: min(400px, 100%);
+    padding: 36px 28px 30px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.82);
+    border-radius: 24px;
+    box-shadow: 0 10px 25px rgba(90, 18, 48, 0.18);
+}
+
+.lock {
+    font-size: 48px;
+    margin-bottom: 6px;
+}
+
+h1 {
+    margin: 0 0 6px;
+    color: #641331;
+    font-size: 26px;
+}
+
+.sub {
+    margin: 0 0 24px;
+    color: #8a3b57;
+    font-size: 15px;
+}
+
+.field {
+    position: relative;
+}
+
+.field input {
+    width: 100%;
+    padding: 15px 52px 15px 18px;
+    font-size: 18px;
+    color: #641331;
+    background: #fff;
+    border: 2px solid #ffc2d3;
+    border-radius: 16px;
+    outline: none;
+    letter-spacing: 2px;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.field input:focus {
+    border-color: #e0245e;
+    box-shadow: 0 0 0 4px rgba(224, 36, 94, 0.15);
+}
+
+.field input::placeholder {
+    letter-spacing: 0;
+    color: #c78a9f;
+}
+
+/* show / hide passcode button at the end of the field */
+.toggle {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    font-size: 20px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.toggle:hover {
+    background: rgba(224, 36, 94, 0.1);
+}
+
+.error {
+    min-height: 22px;
+    margin: 10px 0 14px;
+    color: #d0123f;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 16px;
+    background: #e0245e;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(224, 36, 94, 0.35);
+    transition: transform .2s, box-shadow .2s;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 26px rgba(224, 36, 94, 0.4);
+}
+
+.btn:active {
+    transform: scale(.97);
+}
+
+/* passcode shown at the bottom of the page */
+.hint {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 18px;
+    text-align: end;
+    color: #641331;
+    font-size: 16px;
+    padding: 0 16px;
+}
+
+.hint strong {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 6px 16px;
+    background: rgba(255, 255, 255, 0.82);
+    border-radius: 14px;
+    letter-spacing: 2px;
+    box-shadow: 0 6px 16px rgba(90, 18, 48, 0.15);
+}
+
+.shake {
+    animation: shake .4s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-10px); }
+    40% { transform: translateX(10px); }
+    60% { transform: translateX(-7px); }
+    80% { transform: translateX(7px); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-card" id="card">
+    <div class="lock">🔒</div>
+    <h1>Welcome ❤️</h1>
+    <p class="sub">Oye kindhaki chudaku password undi..🫣</p>
+
+    <div class="field">
+        <input type="password" id="password" placeholder="Passcode" autocomplete="off" autofocus>
+        <button type="button" class="toggle" id="toggle" aria-label="Show passcode">👁️</button>
+    </div>
+
+    <div class="error" id="error"></div>
+
+    <button type="button" class="btn" id="login">Unlock 💕</button>
+</div>
+
+<div class="hint"><strong id="hint"></strong></div>
+
+<script>
+// ✏️ Change your passcode here
+const PASSCODE = "abichitti2305";
+
+const NEXT_PAGE = "first_page.html";
+
+document.getElementById("hint").textContent = PASSCODE;
+
+const input = document.getElementById("password");
+const toggle = document.getElementById("toggle");
+const error = document.getElementById("error");
+const card = document.getElementById("card");
+const loginBtn = document.getElementById("login");
+
+// Show / hide the typed passcode
+toggle.addEventListener("click", () => {
+    const hidden = input.type === "password";
+    input.type = hidden ? "text" : "password";
+    toggle.textContent = hidden ? "🙈" : "👁️";
+    toggle.setAttribute("aria-label", hidden ? "Hide passcode" : "Show passcode");
+    input.focus();
+});
+
+function tryLogin() {
+    if (input.value === PASSCODE) {
+        error.style.color = "#1a7f3c";
+        error.textContent = "Unlocked! ❤️";
+        setTimeout(() => { window.location.href = NEXT_PAGE; }, 500);
+    } else {
+        error.style.color = "#d0123f";
+        error.textContent = "Wrong passcode, try again 💔";
+        card.classList.remove("shake");
+        void card.offsetWidth;
+        card.classList.add("shake");
+        input.select();
+    }
+}
+
+loginBtn.addEventListener("click", tryLogin);
+input.addEventListener("keydown", e => {
+    if (e.key === "Enter") tryLogin();
+});
+input.addEventListener("input", () => { error.textContent = ""; });
+</script>
+
+</body>
+</html>
